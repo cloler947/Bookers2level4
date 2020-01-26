@@ -1,3 +1,18 @@
 // Place all the styles related to the Books controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.book_comment {
+	height: 100px;
+}
+
+.comment-box {
+	padding-left: 15px;
+	position: relative;
+}
+
+.book-comment-action {
+	display: inline-block;
+	position: absolute;
+	bottom: 0;
+}
