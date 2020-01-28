@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-	before_action :baria_user, only: [:update]
+	before_action :baria_user, only: [:edit, :update]
   before_action :authenticate_user!
 
   def show
@@ -15,10 +15,6 @@ class UsersController < ApplicationController
 
   def edit
   	@user = User.find(params[:id])
-    if @user == current_user
-    else
-      redirect_to user_path(current_user)
-    end
   end
 
   def update
@@ -28,6 +24,17 @@ class UsersController < ApplicationController
   	else
   		render "edit"
   	end
+
+    def followings
+      @user = User.find(params[:id])
+      # @user = User.find(params[:followed_id])
+      # @user = Relationship.find(params[:followed_id])
+    end
+
+    def followers
+      @user = User.find(params[:id])
+      @relationships = relationship.followed_id
+    end
   end
 
   private

@@ -1,24 +1,24 @@
 class BookCommentsController < ApplicationController
+	before_action :authenticate_user!
+
 	def create
 		@book = Book.find(params[:book_id])
-		@comment = current_user.book_comments.new(book_comment_params)
-		@comment.book_id = @book.id
-		if @comment.save
-			redirect_back fallback_location: books_path, notice:"successfully created comments!"
+		@book_comment = @book.book_comments.new(book_comment_params)
+		@book_comment.user_id = current_user.id
+		if @book_comment.save
+			redirect_to books_path(@book), notice:"successfully created comments!"
 		else
-			@book = Book.find_by(params[:id])
-			@book_comment = BookComment.new
-			@user = @book.user
-			@comment.book_id = @book.id
-			redirect_back fallback_location: books_path, notice: "errors prohibited this obj from being saved:"
+			@book_comments = BookComment.where(book_id: @book.id)
+      		render '/books/show'
 		end
 	end
 
 	def destroy
-		@book = Book.find(params[:book_id])
-		@user = @book.user
-		@comment = current_user.book_comments.find_by(id: params[:id], book_id: params[:book_id])
-		@comment.destroy
+		@book_comment = BookComment.find(params[:book_id])
+		if @book_comment.user != current_user
+			redirect_back(fallback_location: books_path)
+		end
+		@book_comment.destroy
 		redirect_back fallback_location: books_path, notice:"successfully delete comments!"
 	end
 

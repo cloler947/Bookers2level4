@@ -1,0 +1,28 @@
+<h2>Follow Users</h2>
+
+
+<% @user ||= User.find(params[:id]) %>
+<table class="table">
+	<thead>
+		<tr>
+			<th>image</th>
+			<th>name</th>
+			<th></th>
+			<th></th>
+			<th></th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		<% @user.followings.each do |followings_user| %>
+			<tr>
+				<td><%= attachment_image_tag(followings_user, :profile_image, :fill, 50, 50, fallback: "no-image-mini.jpg") %></td>
+				<td><%= followings_user.name %></td>
+				<td>フォロー数：<%=  followings_user.followings.count %></td>
+				<td>フォロワー数：<%= followings_user.followers.count %></td>
+				<td><%= render 'relationships/follow_link', user: followings_user %></td>
+				<td><%= link_to "Show", user_path(followings_user) %></td>
+			</tr>
+		<% end %>
+	</tbody>
+</table>
