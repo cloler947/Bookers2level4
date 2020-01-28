@@ -27,8 +27,6 @@ class UsersController < ApplicationController
 
     def followings
       @user = User.find(params[:id])
-      # @user = User.find(params[:followed_id])
-      # @user = Relationship.find(params[:followed_id])
     end
 
     def followers
